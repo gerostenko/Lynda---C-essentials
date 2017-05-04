@@ -1,0 +1,93 @@
+#include<stdio.h>
+
+void welcome(void);
+void flushKeyboard(void);
+int getInt(void);
+void getDir(int degree);
+
+int main(void)
+{
+	int degree;
+
+	welcome();
+	printf("Input the degrees: ");
+	degree = getInt();
+	getDir(degree);
+
+	return 0;
+}
+
+void welcome(void)
+{
+	printf("***********************Compass Converter*************************\n");
+}
+void flushKeyboard(void)
+{
+	while (getchar() != '\n')
+		;
+}
+
+int getInt(void)
+{
+	int input, flag = 1, scanfChecker;
+	char enterPressed;
+
+	do {
+		scanfChecker = scanf("%d%c", &input, &enterPressed);
+
+		if (scanfChecker == 0) {
+			printf("Invalid integer, please try again: ");
+			flushKeyboard();
+
+		}
+		else if (enterPressed != '\n') {
+			printf("Invalid integer, please try again: ");
+			flushKeyboard();
+		}
+		else if (input < 0 || input > 360)
+		{
+			printf("Out of range! Please try again:");
+		}
+		else {
+			flag = 0;
+		}
+	} while (flag == 1);
+
+	return input;
+}
+void getDir(int degree)
+{
+	if (degree == 0 || degree == 360)
+	{
+		printf("You are headed North!\n");
+	}
+	else if (degree < 90)
+	{
+		printf("You are headed North %d degrees East!\n", degree);
+	}
+	else if (degree == 90)
+	{
+		printf("You are headed East!\n");
+	}
+	else if (degree > 90 && degree < 180)
+	{
+		printf("You are headed South %d degrees East!\n", 180 - degree);
+	}
+	else if (degree == 180)
+	{
+		printf("You are headed South!\n");
+	}
+	else if (degree > 180 && degree < 270)
+	{
+		printf("You are headed South %d degrees West!\n", degree - 180);
+	}
+	else if (degree == 270)
+	{
+		printf("You are headed West!\n");
+	}
+	else
+	{
+		printf("You are headed North %d degrees West!\n", degree - 270);
+	}
+
+}
