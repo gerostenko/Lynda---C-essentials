@@ -1,0 +1,102 @@
+#include<stdio.h>
+#include <math.h>
+#define numDays 12
+
+void welcome(void);
+void flushKeyboard(void);
+int getInt(void);
+double getDouble(void);
+double calculateLoan(double loanAmount, int numYears, int yearIntRate);
+
+int main(void)
+{
+	int numYears, yearIntRate;
+	double loanAmount, totalPayback;
+
+	welcome();
+	printf("Enter loan amount:");
+	loanAmount = getDouble();
+	printf("Enter the number of years to pay back:");
+	numYears = getInt();
+	printf("Enter the yearly interest rate:");
+	yearIntRate = getInt();
+
+	totalPayback = calculateLoan(loanAmount, numYears, yearIntRate);
+	printf("Total payback: %.2lf\n", totalPayback* numDays * numYears);
+	printf("Monthly payback: %.2lf\n", totalPayback);
+
+	return 0;
+}
+
+void welcome(void)
+{
+	printf("***********************Loan Calculator*************************\n");
+}
+void flushKeyboard(void)
+{
+	while (getchar() != '\n')
+		;
+}
+
+int getInt(void)
+{
+	int input, flag = 1, scanfChecker;
+	char enterPressed;
+
+	do {
+		scanfChecker = scanf("%d%c", &input, &enterPressed);
+
+		if (scanfChecker == 0) {
+			printf("Invalid integer, please try again: ");
+			flushKeyboard();
+
+		}
+		else if (enterPressed != '\n') {
+			printf("Invalid integer, please try again: ");
+			flushKeyboard();
+		}
+		else {
+			flag = 0;
+		}
+	} while (flag == 1);
+
+	return input;
+}
+double getDouble(void)
+{
+	double input;
+	int flag = 1, scanfChecker;
+	char enterPressed;
+
+	do {
+		scanfChecker = scanf("%lf%c", &input, &enterPressed);
+
+		if (scanfChecker == 0) {
+			printf("Invalid number, please try again: ");
+			flushKeyboard();
+
+		}
+		else if (enterPressed != '\n') {
+			printf("Invalid number, please try again: ");
+			flushKeyboard();
+		}
+		else {
+			flag = 0;
+		}
+	} while (flag == 1);
+
+	return input;
+}
+double calculateLoan(double loanAmount, int numYears, int yearIntRate)
+{
+	int n;
+	double discount, totalPayback, i, poweredI;
+
+	i = ((double)yearIntRate/100) / numDays;
+	n = numYears*numDays;
+	poweredI = pow((i + 1), n);
+	discount = (poweredI - 1) / (i*poweredI);
+	totalPayback = loanAmount / discount;
+
+	return totalPayback;
+}
